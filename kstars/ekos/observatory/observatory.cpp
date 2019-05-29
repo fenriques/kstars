@@ -22,7 +22,6 @@ Observatory::Observatory()
     setObseratoryStatusControl(mObservatoryModel->statusControl());
     // update UI for status control
     connect(useDomeCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
-    connect(useShutterCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
     connect(useWeatherCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
     connect(mObservatoryModel, &Ekos::ObservatoryModel::newStatus, this, &Ekos::Observatory::observatoryStatusChanged);
     connect(statusReadyButton, &QPushButton::clicked, mObservatoryModel, &Ekos::ObservatoryModel::makeReady);
@@ -114,12 +113,15 @@ void Observatory::initDome()
             shutterBox->setEnabled(true);
             connect(shutterOpen, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::openShutter);
             connect(shutterClosed, &QPushButton::clicked, getDomeModel(), &Ekos::ObservatoryDomeModel::closeShutter);
+            connect(useShutterCB, &QCheckBox::clicked, this, &Ekos::Observatory::statusControlSettingsChanged);
+
             shutterClosed->setEnabled(true);
             shutterOpen->setEnabled(true);
         }
         else
         {
             shutterBox->setVisible(false);
+            useShutterCB->setVisible(false);
             weatherWarningShutterCB->setVisible(false);
             weatherAlertShutterCB->setVisible(false);
         }
